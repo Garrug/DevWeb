@@ -1,4 +1,11 @@
 <?php
+
+if (!isset($_POST["identifiant"]) or !isset($_POST["mdp"])) {
+	header('Location: register.html');
+	exit();
+}
+ 
+
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
@@ -16,7 +23,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $prenom = $_POST["prenom"];
     $mail = $_POST["mail"];
     $identifiant = $_POST["identifiant"];
-    $mdp = $_POST["mdp"];
+    $mdp = hash("sha256", $_POST["mdp"]);
     $role = $_POST["role"];
 
     $sql = "";

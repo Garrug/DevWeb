@@ -1,6 +1,12 @@
 
 
 <?php
+
+if (!isset($_POST['identifiant']) or !isset($_POST['mdp'])) {
+	header('Location: login.html');
+	exit();
+}
+
 session_start();
 
 $conn = new mysqli("localhost", "test", "Test123!", "monsite");

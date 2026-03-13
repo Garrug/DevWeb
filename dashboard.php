@@ -1,6 +1,13 @@
 <?php
 session_start();
 
+if (!isset($_SESSION["user"]) or !isset($_SESSION["role"])) {
+	header('Location: login.html');
+	exit();
+}
+
+
+
 if (!isset($_SESSION["user"])) {
     header("Location: login.html");
     exit();
