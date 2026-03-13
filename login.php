@@ -38,7 +38,7 @@ foreach ($tables as $table) {
     $sql = "SELECT * FROM $table WHERE identifiant=? AND mdp=?";
     $stmt = $conn->prepare($sql);
     $stmt->execute([$identifiant, $mdp]);
-	$result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+	$result = $stmt->fetchAll();
     if ($stmt->rowCount() === 1) {
 
         $_SESSION["user"] = $identifiant;

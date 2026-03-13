@@ -64,7 +64,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $stmt = $conn->prepare($sql);
 
     if (!$stmt) {
-        die("Erreur préparation : " . $conn->error);
+        die("Erreur préparation : " . $conn->errorInfo()[2]);
     }
 
     if ($stmt->execute($params)) {
