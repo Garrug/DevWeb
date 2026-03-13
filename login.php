@@ -9,7 +9,18 @@ if (!isset($_POST['identifiant']) or !isset($_POST['mdp'])) {
 
 session_start();
 
-$conn = new mysqli("localhost", "test", "Test123!", "monsite");
+$db_name = "mysql:host=localhost;dbname=monsite";
+$username = "test";
+$password = "Test123!";
+
+try {
+	$conn = new PDO($db_name, $username, $password);
+		
+} catch (PDOException $e) {
+	echo "Error : " . $e->getMessage() . "<br>";
+	die();
+	
+}
 
 $identifiant = $_POST['identifiant'];
 $mdp = $_POST['mdp'];
@@ -26,11 +37,9 @@ foreach ($tables as $table) {
 
     $sql = "SELECT * FROM $table WHERE identifiant=? AND mdp=?";
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("ss", $identifiant, $mdp);
-    $stmt->execute();
-    $result = $stmt->get_result();
-
-    if ($result->num_rows === 1) {
+    $stmt->execute([$identifiant, $mdp]);
+	$result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    if ($stmt->rowCount() === 1) {
 
         $_SESSION["user"] = $identifiant;
         $_SESSION["role"] = $table;
@@ -38,7 +47,10 @@ foreach ($tables as $table) {
         header("Location: dashboard.php");
         exit();
     }
+    
+    $stmt = null;
 }
 
+$conn = null;
 echo "Identifiant ou mot de passe incorrect";
 ?>

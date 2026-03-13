@@ -10,10 +10,17 @@ ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
 // Connexion à la base
-$conn = new mysqli("localhost", "test", "Test123!", "monsite");
-
-if ($conn->connect_error) {
-    die("Connexion échouée : " . $conn->connect_error);
+try {
+	$db_name = "mysql:host=localhost;dbname=monsite";
+	$username = "test";
+	$password = "Test123!";
+	
+	$conn = new PDO($db_name, $username, $password);
+		
+} catch (PDOException $e) {
+	echo "Error : " . $e->getMessage() . "<br>";
+	die();
+	
 }
 
 // Vérifie que le formulaire a été soumis
@@ -60,17 +67,16 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         die("Erreur préparation : " . $conn->error);
     }
 
-    $types = str_repeat("s", count($params));
-    $stmt->bind_param($types, ...$params);
-
-    if ($stmt->execute()) {
+    if ($stmt->execute($params)) {
         echo "Utilisateur ajouté avec succès !";
     } else {
         echo "Erreur lors de l'ajout : " . $stmt->error;
     }
 
-    $stmt->close();
+    $stmt = null;
 }
 
-$conn->close();
+$conn = null;
 ?>
+
+
