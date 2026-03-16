@@ -37,7 +37,7 @@ foreach ($tables as $table) {
 
     $sql = "SELECT * FROM $table WHERE identifiant=? AND mdp=?";
     $stmt = $conn->prepare($sql);
-    $stmt->execute([$identifiant, $mdp]);
+    $stmt->execute([$identifiant, hash("sha256", $mdp)]);
 	$result = $stmt->fetchAll();
     if ($stmt->rowCount() === 1) {
 
