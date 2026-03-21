@@ -15,16 +15,6 @@
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
-
---
--- Creatin the database monsite
---
-
-DROP DATABASE IF EXISTS monsite;
-CREATE DATABASE monsite;
-USE monsite;
-
-
 --
 -- Table structure for table `Administrateur`
 --
@@ -40,7 +30,7 @@ CREATE TABLE `Administrateur` (
   `identifiant` varchar(50) DEFAULT NULL,
   `mdp` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`idAdmin`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -49,7 +39,7 @@ CREATE TABLE `Administrateur` (
 
 LOCK TABLES `Administrateur` WRITE;
 /*!40000 ALTER TABLE `Administrateur` DISABLE KEYS */;
-INSERT INTO `Administrateur` VALUES (1,'Admin','Test','admin@test.com','admin','8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918');
+INSERT INTO `Administrateur` VALUES (3,'administrateur','administrateur','administrateur@gmail.com','administrateur','$2y$10$BF6GHqTYogwL0oolEO/zIeGp4g2.bxdtlaBg1LjDx/.ZIzDqqqCiK');
 /*!40000 ALTER TABLE `Administrateur` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -115,7 +105,7 @@ CREATE TABLE `Entreprise` (
   `identifiant` varchar(50) DEFAULT NULL,
   `mdp` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`idEntreprise`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -124,6 +114,7 @@ CREATE TABLE `Entreprise` (
 
 LOCK TABLES `Entreprise` WRITE;
 /*!40000 ALTER TABLE `Entreprise` DISABLE KEYS */;
+INSERT INTO `Entreprise` VALUES (5,'entreprise','entreprise','entreprise@gmail.com','entreprise','$2y$10$k3/Yp0AGoBi3KfSYDb6kz.r9GkgLohY2gL5unQ12cbOX6sC2oJue6');
 /*!40000 ALTER TABLE `Entreprise` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -145,7 +136,7 @@ CREATE TABLE `Etudiant` (
   `identifiant` varchar(50) DEFAULT NULL,
   `mdp` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`idEtudiant`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -154,7 +145,7 @@ CREATE TABLE `Etudiant` (
 
 LOCK TABLES `Etudiant` WRITE;
 /*!40000 ALTER TABLE `Etudiant` DISABLE KEYS */;
-INSERT INTO `Etudiant` VALUES (1,'a','a','a@gmail.com','','','','a','ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb');
+INSERT INTO `Etudiant` VALUES (5,'etudiant','etudiant','etudiant@gmail.com','informatique','3A','G1','etudiant','$2y$10$ypR.W.zOHZk31xcy/0rUV.rYpIpmwwXuCl5/gadzK2OeeOq5RqoqW');
 /*!40000 ALTER TABLE `Etudiant` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -173,7 +164,7 @@ CREATE TABLE `Jury` (
   `identifiant` varchar(50) DEFAULT NULL,
   `mdp` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`idJury`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -182,7 +173,7 @@ CREATE TABLE `Jury` (
 
 LOCK TABLES `Jury` WRITE;
 /*!40000 ALTER TABLE `Jury` DISABLE KEYS */;
-INSERT INTO `Jury` VALUES (1,'b','b','b@b','b','3e23e8160039594a33894f6564e1b1348bbd7a0088d42c4acb73eeaed59c009d');
+INSERT INTO `Jury` VALUES (3,'jury','jury','jury@gmail.com','jury','$2y$10$m/K0lT02MGPcOcUhLwckLeMSMy89fRrNwIfvkYDfgQdMyfqvxrvke');
 /*!40000 ALTER TABLE `Jury` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -204,7 +195,7 @@ CREATE TABLE `Offre_de_stage` (
   PRIMARY KEY (`idOffre`),
   KEY `idEntreprise` (`idEntreprise`),
   CONSTRAINT `Offre_de_stage_ibfk_1` FOREIGN KEY (`idEntreprise`) REFERENCES `Entreprise` (`idEntreprise`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -286,7 +277,7 @@ CREATE TABLE `Tuteur` (
   `identifiant` varchar(50) DEFAULT NULL,
   `mdp` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`idTuteur`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -295,7 +286,7 @@ CREATE TABLE `Tuteur` (
 
 LOCK TABLES `Tuteur` WRITE;
 /*!40000 ALTER TABLE `Tuteur` DISABLE KEYS */;
-INSERT INTO `Tuteur` VALUES (1,'a','a','a','a','ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb');
+INSERT INTO `Tuteur` VALUES (3,'tuteur','tuteur','tuteur@gmail.com','tuteur','$2y$10$8E0uG4f7eUrs3XdqEbTspOC/3ELbP90IlMsEXycroRv436.oQDHfm');
 /*!40000 ALTER TABLE `Tuteur` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -562,4 +553,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2026-03-11 16:41:27
+-- Dump completed on 2026-03-21 18:23:13

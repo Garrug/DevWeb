@@ -35,7 +35,7 @@ $menu = [
     ],
 ];
 
-// Lien "Mes offres" visible uniquement pour les entreprises
+// "Mes offres" pour les entreprises
 if (isset($_SESSION['role']) && $_SESSION['role'] === 'Entreprise') {
     array_splice($menu, 2, 0, [[
         'label'  => 'Mes offres',
@@ -43,6 +43,16 @@ if (isset($_SESSION['role']) && $_SESSION['role'] === 'Entreprise') {
         'icon'   => '<path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/>',
         'stroke' => true,
     ]]);
+}
+
+// "Administration" pour les admins
+if (isset($_SESSION['role']) && $_SESSION['role'] === 'Administrateur') {
+    $menu[] = [
+        'label'  => 'Administration',
+        'href'   => 'admin.php',
+        'icon'   => '<path stroke-linecap="round" stroke-linejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>',
+        'stroke' => true,
+    ];
 }
 ?>
 
@@ -52,8 +62,16 @@ if (isset($_SESSION['role']) && $_SESSION['role'] === 'Entreprise') {
     <div style="padding:20px;border-bottom:1px solid rgba(255,255,255,0.06);">
         <a href="dashboard.php" style="display:flex;align-items:center;gap:8px;text-decoration:none;">
             <div style="width:30px;height:30px;background:linear-gradient(135deg,#4F46E5,#818CF8);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
-                <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2.5" aria-hidden="true">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"/>
+                <svg width="16" height="16" fill="none" viewBox="0 0 24 24"
+                     stroke="white" stroke-width="2.5" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                          d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0
+                             014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42
+                             3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806
+                             1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42
+                             3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0
+                             01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438
+                             3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"/>
                 </svg>
             </div>
             <span style="font-family:'Syne',sans-serif;font-weight:700;font-size:17px;color:#FAFAFA;">
@@ -86,7 +104,7 @@ if (isset($_SESSION['role']) && $_SESSION['role'] === 'Entreprise') {
     </nav>
 
     <!-- Section compte -->
-    <div style="padding:8px 10px 8px;">
+    <div style="padding:8px 10px;">
         <p style="font-size:10px;font-weight:600;color:#3F3F46;letter-spacing:0.08em;padding:0 12px;margin-bottom:4px;">COMPTE</p>
         <a href="../includes/logout.php" class="nav-link nav-link-danger" style="color:#71717A;">
             <svg class="flex-shrink-0" width="16" height="16" fill="none" viewBox="0 0 24 24"
@@ -101,9 +119,13 @@ if (isset($_SESSION['role']) && $_SESSION['role'] === 'Entreprise') {
     <!-- User footer -->
     <?php if (isset($_SESSION['user'])): ?>
     <div style="padding:12px 14px;border-top:1px solid rgba(255,255,255,0.06);display:flex;align-items:center;gap:10px;">
-        <a href="/pages/profil.php">
-            <div style="width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,#4F46E5,#818CF8);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:white;flex-shrink:0;"
-                aria-hidden="true">
+        <!-- Avatar cliquable → profil.php (chemin relatif, pas absolu) -->
+        <a href="profil.php" style="flex-shrink:0;text-decoration:none;" title="Mon profil">
+            <div style="width:30px;height:30px;border-radius:50%;
+                        background:linear-gradient(135deg,#4F46E5,#818CF8);
+                        display:flex;align-items:center;justify-content:center;
+                        font-size:12px;font-weight:700;color:white;"
+                 aria-hidden="true">
                 <?= strtoupper(substr($_SESSION['user'], 0, 1)) ?>
             </div>
         </a>
