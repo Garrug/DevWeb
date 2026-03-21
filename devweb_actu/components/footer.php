@@ -1,0 +1,1 @@
+<?php // components/footer.php ?>
