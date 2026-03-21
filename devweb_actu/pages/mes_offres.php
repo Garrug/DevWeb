@@ -114,7 +114,9 @@ $niveau_default = ['bg' => '#F4F4F5', 'color' => '#71717A', 'border' => '#E4E4E7
             </div>
             <div style="display:flex;align-items:center;gap:10px;">
                 <span class="role-badge">Entreprise</span>
-                <div class="avatar" aria-hidden="true"><?= strtoupper(substr($_SESSION['user'], 0, 1)) ?></div>
+                <a href="/pages/profil.php">
+                    <div class="avatar" aria-hidden="true"><?= strtoupper(substr($_SESSION['user'], 0, 1)) ?></div>
+                </a>
             </div>
         </header>
 

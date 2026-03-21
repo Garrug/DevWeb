@@ -107,9 +107,9 @@ $page_title = $offre ? htmlspecialchars($offre['entreprise_nom']) . ' — Offre 
             </div>
             <div style="display:flex;align-items:center;gap:10px;">
                 <span class="role-badge"><?= htmlspecialchars($_SESSION['role']) ?></span>
-                <div class="avatar" aria-hidden="true">
-                    <?= strtoupper(substr($_SESSION['user'], 0, 1)) ?>
-                </div>
+                <a href="/pages/profil.php">
+                    <div class="avatar" aria-hidden="true"><?= strtoupper(substr($_SESSION['user'], 0, 1)) ?></div>
+                </a>
             </div>
         </header>
 

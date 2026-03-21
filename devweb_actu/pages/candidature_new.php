@@ -177,9 +177,9 @@ $page_title = 'Postuler — ' . ($offre ? htmlspecialchars($offre['entreprise_no
             </div>
             <div style="display:flex;align-items:center;gap:10px;">
                 <span class="role-badge">Étudiant</span>
-                <div class="avatar" aria-hidden="true">
-                    <?= strtoupper(substr($_SESSION['user'], 0, 1)) ?>
-                </div>
+                <a href="/pages/profil.php">
+                    <div class="avatar" aria-hidden="true"><?= strtoupper(substr($_SESSION['user'], 0, 1)) ?></div>
+                </a>
             </div>
         </header>
 

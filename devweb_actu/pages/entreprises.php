@@ -58,7 +58,9 @@ $palette = ['#4F46E5','#059669','#D97706','#DC2626','#7C3AED','#0284C7','#0891B2
             </div>
             <div style="display:flex;align-items:center;gap:10px;">
                 <span class="role-badge"><?= htmlspecialchars($_SESSION['role']) ?></span>
-                <div class="avatar" aria-hidden="true"><?= strtoupper(substr($_SESSION['user'], 0, 1)) ?></div>
+                <a href="/pages/profil.php">
+                    <div class="avatar" aria-hidden="true"><?= strtoupper(substr($_SESSION['user'], 0, 1)) ?></div>
+                </a>
             </div>
         </header>
 

@@ -204,7 +204,9 @@ include('../components/header.php');
             </div>
             <div style="display:flex;align-items:center;gap:10px;">
                 <span class="role-badge"><?= htmlspecialchars($role_label) ?></span>
-                <div class="avatar"><?= strtoupper(substr($user, 0, 1)) ?></div>
+                <a href="/pages/profil.php">
+                    <div class="avatar"><?= strtoupper(substr($user, 0, 1)) ?></div>
+                </a>
             </div>
         </header>
 

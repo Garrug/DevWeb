@@ -101,10 +101,12 @@ if (isset($_SESSION['role']) && $_SESSION['role'] === 'Entreprise') {
     <!-- User footer -->
     <?php if (isset($_SESSION['user'])): ?>
     <div style="padding:12px 14px;border-top:1px solid rgba(255,255,255,0.06);display:flex;align-items:center;gap:10px;">
-        <div style="width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,#4F46E5,#818CF8);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:white;flex-shrink:0;"
-             aria-hidden="true">
-            <?= strtoupper(substr($_SESSION['user'], 0, 1)) ?>
-        </div>
+        <a href="/pages/profil.php">
+            <div style="width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,#4F46E5,#818CF8);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:white;flex-shrink:0;"
+                aria-hidden="true">
+                <?= strtoupper(substr($_SESSION['user'], 0, 1)) ?>
+            </div>
+        </a>
         <div style="overflow:hidden;min-width:0;">
             <p style="font-size:12px;font-weight:600;color:#FAFAFA;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin:0;">
                 <?= htmlspecialchars($_SESSION['user']) ?>

@@ -111,7 +111,9 @@ $error_messages = [
             </div>
             <div style="display:flex;align-items:center;gap:10px;">
                 <span class="role-badge"><?= htmlspecialchars($role_label) ?></span>
-                <div class="avatar"><?= htmlspecialchars($initiales) ?></div>
+                <a href="/pages/profil.php">
+                    <div class="avatar" aria-hidden="true"><?= strtoupper(substr($_SESSION['user'], 0, 1)) ?></div>
+                </a>
             </div>
         </header>
 
@@ -142,7 +144,7 @@ $error_messages = [
             <!-- Carte identité -->
             <div class="card animate-in delay-1" style="padding:24px;margin-bottom:20px;display:flex;align-items:center;gap:20px;flex-wrap:wrap;">
                 <div style="width:60px;height:60px;border-radius:16px;background:linear-gradient(135deg,#4F46E5,#818CF8);display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-size:20px;font-weight:700;color:white;box-shadow:0 4px 14px rgba(79,70,229,0.3);flex-shrink:0;">
-                    <?= htmlspecialchars($initiales) ?>
+                        <?= strtoupper(substr($_SESSION['user'], 0, 1)) ?>
                 </div>
                 <div style="flex:1;min-width:0;">
                     <h2 style="font-family:'Syne',sans-serif;font-size:18px;font-weight:700;color:#18181B;margin:0 0 4px;"><?= $display_name ?></h2>
