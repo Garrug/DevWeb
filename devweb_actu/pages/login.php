@@ -8,6 +8,7 @@ if (isset($_SESSION['user'])) {
 }
 
 $error   = isset($_GET['error']);
+$deleted = isset($_GET['deleted']);
 $success = isset($_GET['success']);
 ?>
 <!DOCTYPE html>
@@ -60,6 +61,22 @@ $success = isset($_GET['success']);
                 <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/>
             </svg>
             <span style="font-size:13px;color:#FCA5A5;">Identifiant ou mot de passe incorrect.</span>
+        </div>
+        <?php endif; ?>
+
+        <?php if ($deleted): ?>
+        <div role="alert"
+            style="background:rgba(5,150,105,0.1);border:1px solid rgba(5,150,105,0.25);
+                    border-radius:10px;padding:12px 14px;margin-bottom:20px;
+                    display:flex;align-items:center;gap:8px;">
+            <svg width="15" height="15" fill="none" viewBox="0 0 24 24"
+                stroke="#6EE7B7" stroke-width="2" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+            <span style="font-size:13px;color:#6EE7B7;">
+                Votre compte a été supprimé avec succès.
+            </span>
         </div>
         <?php endif; ?>
 

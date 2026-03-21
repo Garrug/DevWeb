@@ -85,6 +85,8 @@ $error_messages = [
     'mdp_match'   => 'Les mots de passe ne correspondent pas.',
     'mdp_actuel'  => 'Le mot de passe actuel est incorrect.',
     'mail_format' => "L'adresse e-mail n'est pas valide.",
+    'delete_empty' => 'Veuillez saisir votre mot de passe pour confirmer la suppression.',
+    'delete_mdp'   => 'Mot de passe incorrect. Suppression annulée.',
 ];
 ?>
 <!DOCTYPE html>
@@ -323,6 +325,124 @@ $error_messages = [
                     </div>
                 </div>
 
+                <!-- Zone danger : suppression du compte -->
+                <div class="card animate-in delay-4"
+                    style="grid-column:1/-1;border-color:#FECACA;overflow:visible;">
+
+                    <div style="padding:18px 22px;border-bottom:1px solid #FEF2F2;
+                                display:flex;align-items:center;justify-content:space-between;">
+                        <div>
+                            <h3 style="font-family:'Syne',sans-serif;font-size:14px;font-weight:700;
+                                    color:#DC2626;margin:0;">
+                                Zone de danger
+                            </h3>
+                            <p style="font-size:12px;color:#A1A1AA;margin:4px 0 0;">
+                                Actions irréversibles sur votre compte
+                            </p>
+                        </div>
+                        <div style="width:34px;height:34px;background:#FEF2F2;border-radius:9px;
+                                    display:flex;align-items:center;justify-content:center;">
+                            <svg width="16" height="16" fill="none" viewBox="0 0 24 24"
+                                stroke="#DC2626" stroke-width="1.8" aria-hidden="true">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M12 9v2m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/>
+                            </svg>
+                        </div>
+                    </div>
+
+                    <div style="padding:22px;">
+
+                        <!-- Explication selon le rôle -->
+                        <div style="background:#FEF2F2;border:1px solid #FECACA;border-radius:10px;
+                                    padding:14px 16px;margin-bottom:20px;">
+                            <p style="font-size:13px;color:#991B1B;font-weight:600;margin:0 0 6px;">
+                                ⚠ Supprimer mon compte — conséquences :
+                            </p>
+                            <ul style="font-size:12.5px;color:#7F1D1D;margin:0;padding-left:18px;line-height:1.8;">
+                                <?php if ($role === 'Etudiant'): ?>
+                                <li>Votre compte et vos informations personnelles seront supprimés.</li>
+                                <li>Toutes vos candidatures seront supprimées, y compris les stages validés.</li>
+                                <li>Cette action est <strong>définitive et irréversible</strong>.</li>
+                                <?php elseif ($role === 'Entreprise'): ?>
+                                <li>Votre compte entreprise sera supprimé.</li>
+                                <li>Vos offres <strong>non pourvues</strong> et leurs candidatures seront supprimées.</li>
+                                <li>Les offres avec un <strong>stage déjà validé</strong> (accepté des deux côtés) seront conservées comme trace historique.</li>
+                                <li>Cette action est <strong>définitive et irréversible</strong>.</li>
+                                <?php else: ?>
+                                <li>Votre compte sera supprimé définitivement.</li>
+                                <li>Cette action est <strong>irréversible</strong>.</li>
+                                <?php endif; ?>
+                            </ul>
+                        </div>
+
+                        <!-- Formulaire de confirmation -->
+                        <div id="deleteFormWrapper" style="display:none;">
+                            <form action="../includes/profil_delete.php" method="POST">
+
+                                <div style="margin-bottom:14px;">
+                                    <label style="display:block;font-size:11px;font-weight:700;
+                                                color:#A1A1AA;letter-spacing:0.06em;margin-bottom:6px;"
+                                        for="mdp_confirmation">
+                                        CONFIRMEZ VOTRE MOT DE PASSE
+                                    </label>
+                                    <input type="password"
+                                        id="mdp_confirmation"
+                                        name="mdp_confirmation"
+                                        placeholder="••••••••"
+                                        required
+                                        class="input-field"
+                                        style="border-color:#FECACA;">
+                                    <p style="font-size:11.5px;color:#A1A1AA;margin:6px 0 0;">
+                                        Saisissez votre mot de passe actuel pour confirmer la suppression.
+                                    </p>
+                                </div>
+
+                                <div style="display:flex;gap:10px;">
+                                    <button type="submit"
+                                            class="btn-primary"
+                                            style="background:#DC2626;padding:9px 18px;font-size:13px;"
+                                            onmouseover="this.style.background='#B91C1C'"
+                                            onmouseout="this.style.background='#DC2626'">
+                                        <svg width="13" height="13" fill="none" viewBox="0 0 24 24"
+                                            stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                                        </svg>
+                                        Supprimer définitivement mon compte
+                                    </button>
+                                    <button type="button"
+                                            onclick="toggleDeleteForm(false)"
+                                            class="btn-secondary"
+                                            style="padding:9px 16px;font-size:13px;">
+                                        Annuler
+                                    </button>
+                                </div>
+
+                            </form>
+                        </div>
+
+                        <!-- Bouton d'ouverture du formulaire -->
+                        <div id="deleteToggleBtn">
+                            <button type="button"
+                                    onclick="toggleDeleteForm(true)"
+                                    style="display:flex;align-items:center;gap:7px;padding:9px 16px;
+                                        background:white;border:1.5px solid #FECACA;border-radius:8px;
+                                        color:#DC2626;font-size:13px;font-weight:600;
+                                        cursor:pointer;transition:all 0.15s;font-family:'DM Sans',sans-serif;"
+                                    onmouseover="this.style.background='#FEF2F2'"
+                                    onmouseout="this.style.background='white'">
+                                <svg width="14" height="14" fill="none" viewBox="0 0 24 24"
+                                    stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                                </svg>
+                                Supprimer mon compte
+                            </button>
+                        </div>
+
+                    </div>
+                </div>
+
             </div>
 
         </main>
@@ -330,6 +450,14 @@ $error_messages = [
     </div>
 
 </div>
-
+<script>
+function toggleDeleteForm(show) {
+    document.getElementById('deleteFormWrapper').style.display = show ? 'block' : 'none';
+    document.getElementById('deleteToggleBtn').style.display   = show ? 'none'  : 'block';
+    if (show) {
+        document.getElementById('mdp_confirmation').focus();
+    }
+}
+</script>
 </body>
 </html>
