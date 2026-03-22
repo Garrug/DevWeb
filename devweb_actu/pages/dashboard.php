@@ -145,6 +145,7 @@ if ($role === 'Etudiant') {
 }
 
 // ── ENTREPRISE : ses offres avec nb candidatures ──────────────────────────
+// ── ENTREPRISE : ses offres avec candidats ────────────────────────────────
 $offres_entreprise = [];
 if ($role === 'Entreprise') {
     try {
@@ -160,7 +161,30 @@ if ($role === 'Entreprise') {
         );
         $stmt->execute([$id_metier]);
         $offres_entreprise = $stmt->fetchAll();
-    } catch (PDOException $e) { error_log('[StageFlow] dashboard offres_entreprise : ' . $e->getMessage()); }
+    } catch (PDOException $e) {
+        error_log('[StageFlow] dashboard offres_entreprise : ' . $e->getMessage());
+    }
+
+    // Récupérer les candidats pour chaque offre
+    foreach ($offres_entreprise as &$offre_item) {
+        try {
+            $stmt = $conn->prepare(
+                "SELECT c.idDocument, c.idOffre,
+                        c.choixEntreprise, c.choixEtudiant,
+                        et.prenom, et.nom AS etudiant_nom
+                 FROM candidater c
+                 JOIN Etudiant et ON c.idEtudiant = et.idEtudiant
+                 WHERE c.idOffre = ?
+                 ORDER BY c.idDocument DESC"
+            );
+            $stmt->execute([$offre_item['idOffre']]);
+            $offre_item['candidats'] = $stmt->fetchAll();
+        } catch (PDOException $e) {
+            error_log('[StageFlow] dashboard candidats_offre : ' . $e->getMessage());
+            $offre_item['candidats'] = [];
+        }
+    }
+    unset($offre_item); // important après foreach par référence
 }
 
 // ── ADMIN / TUTEUR / JURY : stats globales ────────────────────────────────
@@ -443,43 +467,129 @@ $niveau_styles = [
                             <p style="font-size:12px;color:#A1A1AA;margin:4px 0 0;">Candidatures reçues par offre</p>
                         </div>
                         <a href="mes_offres.php" class="btn-primary" style="font-size:12px;padding:6px 12px;">
-                            <svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg>
+                            <svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/>
+                            </svg>
                             Nouvelle offre
                         </a>
                     </div>
+
                     <?php if (empty($offres_entreprise)): ?>
                     <div style="padding:32px 20px;text-align:center;">
                         <p style="font-size:13px;color:#A1A1AA;margin:0 0 12px;">Vous n'avez pas encore publié d'offre.</p>
-                        <a href="mes_offres.php" class="btn-primary" style="font-size:12px;padding:7px 14px;">
-                            Publier une offre
-                        </a>
+                        <a href="mes_offres.php" class="btn-primary" style="font-size:12px;padding:7px 14px;">Publier une offre</a>
                     </div>
+
                     <?php else: ?>
                     <?php foreach ($offres_entreprise as $o):
-                        $nb_style = $niveau_styles[$o['niveau']] ?? ['bg'=>'#F4F4F5','color'=>'#71717A','border'=>'#E4E4E7'];
+                        $nb_style   = $niveau_styles[$o['niveau']] ?? ['bg'=>'#F4F4F5','color'=>'#71717A','border'=>'#E4E4E7'];
                         $date_debut = $o['debutStage'] ? date('d/m/Y', strtotime($o['debutStage'])) : '—';
+                        $candidats  = $o['candidats'] ?? [];
+
+                        $badge_statut_mini = [
+                            'En attente' => ['bg'=>'#FFFBEB','color'=>'#D97706'],
+                            'Accepté'    => ['bg'=>'#ECFDF5','color'=>'#059669'],
+                            'Refusé'     => ['bg'=>'#FEF2F2','color'=>'#DC2626'],
+                        ];
                     ?>
-                    <div class="table-row" style="padding:14px 20px;display:flex;align-items:center;justify-content:space-between;gap:12px;">
-                        <div style="min-width:0;flex:1;">
-                            <div style="display:flex;align-items:center;gap:7px;margin-bottom:4px;">
-                                <?php if ($o['niveau']): ?>
-                                <span style="font-size:10.5px;font-weight:600;padding:2px 7px;border-radius:20px;
-                                             background:<?= $nb_style['bg'] ?>;color:<?= $nb_style['color'] ?>;border:1px solid <?= $nb_style['border'] ?>;">
-                                    <?= htmlspecialchars($o['niveau']) ?>
-                                </span>
-                                <?php endif; ?>
-                                <span style="font-size:11px;color:#A1A1AA;">Début : <?= $date_debut ?></span>
+
+                    <!-- Offre row + candidats dépliables -->
+                    <div style="border-bottom:1px solid #F4F4F5;">
+
+                        <!-- Header offre — cliquable pour déplier -->
+                        <div style="padding:14px 20px;display:flex;align-items:center;justify-content:space-between;gap:12px;cursor:pointer;transition:background 0.15s;"
+                            onclick="toggleCandidats(<?= (int)$o['idOffre'] ?>)"
+                            onmouseover="this.style.background='#FAFAFA'" onmouseout="this.style.background=''">
+
+                            <div style="min-width:0;flex:1;">
+                                <div style="display:flex;align-items:center;gap:7px;margin-bottom:4px;">
+                                    <?php if ($o['niveau']): ?>
+                                    <span style="font-size:10.5px;font-weight:600;padding:2px 7px;border-radius:20px;
+                                                background:<?= $nb_style['bg'] ?>;color:<?= $nb_style['color'] ?>;border:1px solid <?= $nb_style['border'] ?>;">
+                                        <?= htmlspecialchars($o['niveau']) ?>
+                                    </span>
+                                    <?php endif; ?>
+                                    <span style="font-size:11px;color:#A1A1AA;">Début : <?= $date_debut ?></span>
+                                </div>
+                                <p style="font-size:13px;font-weight:500;color:#18181B;margin:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">
+                                    <?= htmlspecialchars(mb_strimwidth($o['description'] ?? '', 0, 55, '…')) ?>
+                                </p>
                             </div>
-                            <p style="font-size:13px;font-weight:500;color:#18181B;margin:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">
-                                <?= htmlspecialchars(mb_strimwidth($o['description'] ?? '', 0, 55, '…')) ?>
-                            </p>
+
+                            <div style="display:flex;align-items:center;gap:12px;flex-shrink:0;">
+                                <!-- Compteur -->
+                                <div style="text-align:right;">
+                                    <p style="font-family:'Syne',sans-serif;font-size:20px;font-weight:700;color:#4F46E5;margin:0;line-height:1;">
+                                        <?= (int)$o['nb_candidatures'] ?>
+                                    </p>
+                                    <p style="font-size:10.5px;color:#A1A1AA;margin:0;">
+                                        candidature<?= $o['nb_candidatures'] > 1 ? 's' : '' ?>
+                                    </p>
+                                </div>
+                                <!-- Chevron -->
+                                <?php if ((int)$o['nb_candidatures'] > 0): ?>
+                                <svg id="chevron-<?= (int)$o['idOffre'] ?>"
+                                    width="16" height="16" fill="none" viewBox="0 0 24 24"
+                                    stroke="#A1A1AA" stroke-width="2.5"
+                                    style="transition:transform 0.2s;flex-shrink:0;" aria-hidden="true">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/>
+                                </svg>
+                                <?php endif; ?>
+                            </div>
+
                         </div>
-                        <div style="text-align:right;flex-shrink:0;">
-                            <p style="font-family:'Syne',sans-serif;font-size:20px;font-weight:700;color:#4F46E5;margin:0;">
-                                <?= (int)$o['nb_candidatures'] ?>
-                            </p>
-                            <p style="font-size:10.5px;color:#A1A1AA;margin:0;">candidature<?= $o['nb_candidatures'] > 1 ? 's' : '' ?></p>
+
+                        <!-- Liste des candidats — masquée par défaut -->
+                        <?php if (!empty($candidats)): ?>
+                        <div id="candidats-<?= (int)$o['idOffre'] ?>"
+                            style="display:none;background:#FAFAFA;border-top:1px solid #F4F4F5;">
+
+                            <?php foreach ($candidats as $c):
+                                // Calculer le statut de ce candidat
+                                $ce  = strtolower(trim($c['choixEntreprise'] ?? ''));
+                                $cet = strtolower(trim($c['choixEtudiant']  ?? ''));
+                                if ($ce === 'accepté' && $cet === 'accepté')   $statut_c = 'Accepté';
+                                elseif ($ce === 'refusé' || $cet === 'refusé') $statut_c = 'Refusé';
+                                else                                            $statut_c = 'En attente';
+
+                                $bs_mini = $badge_statut_mini[$statut_c] ?? $badge_statut_mini['En attente'];
+                            ?>
+                            <a href="candidature_detail.php?doc=<?= (int)$c['idDocument'] ?>&offre=<?= (int)$c['idOffre'] ?>"
+                            style="display:flex;align-items:center;justify-content:space-between;gap:10px;
+                                    padding:11px 20px 11px 32px;text-decoration:none;
+                                    border-bottom:1px solid #F4F4F5;transition:background 0.12s;"
+                            onmouseover="this.style.background='#EEF2FF'" onmouseout="this.style.background=''">
+
+                                <!-- Avatar + nom -->
+                                <div style="display:flex;align-items:center;gap:9px;min-width:0;">
+                                    <div style="width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,#4F46E5,#818CF8);
+                                                display:flex;align-items:center;justify-content:center;
+                                                font-size:11px;font-weight:700;color:white;flex-shrink:0;" aria-hidden="true">
+                                        <?= strtoupper(substr($c['prenom'] ?? '?', 0, 1)) ?>
+                                    </div>
+                                    <span style="font-size:13px;font-weight:500;color:#18181B;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">
+                                        <?= htmlspecialchars($c['prenom'] . ' ' . $c['etudiant_nom']) ?>
+                                    </span>
+                                </div>
+
+                                <!-- Statut + flèche -->
+                                <div style="display:flex;align-items:center;gap:8px;flex-shrink:0;">
+                                    <span style="font-size:11px;font-weight:600;padding:2px 8px;border-radius:20px;
+                                                background:<?= $bs_mini['bg'] ?>;color:<?= $bs_mini['color'] ?>;">
+                                        <?= $statut_c ?>
+                                    </span>
+                                    <svg width="12" height="12" fill="none" viewBox="0 0 24 24"
+                                        stroke="#A1A1AA" stroke-width="2.5" aria-hidden="true">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/>
+                                    </svg>
+                                </div>
+
+                            </a>
+                            <?php endforeach; ?>
+
                         </div>
+                        <?php endif; ?>
+
                     </div>
                     <?php endforeach; ?>
                     <?php endif; ?>
@@ -573,6 +683,16 @@ $niveau_styles = [
         </main>
     </div>
 </div>
+<script>
+function toggleCandidats(idOffre) {
+    const liste   = document.getElementById('candidats-' + idOffre);
+    const chevron = document.getElementById('chevron-'   + idOffre);
+    if (!liste) return;
 
+    const isOpen = liste.style.display !== 'none';
+    liste.style.display          = isOpen ? 'none'              : 'block';
+    if (chevron) chevron.style.transform = isOpen ? 'rotate(0deg)' : 'rotate(180deg)';
+}
+</script>
 </body>
 </html>

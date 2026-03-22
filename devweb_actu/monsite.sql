@@ -76,6 +76,8 @@ DROP TABLE IF EXISTS `Document`;
 CREATE TABLE `Document` (
   `idDocument` int NOT NULL AUTO_INCREMENT,
   `nom` varchar(50) DEFAULT NULL,
+  `lettre_motivation` text,
+  `cv_filename` varchar(255) DEFAULT NULL,
   `dateDepot` date DEFAULT NULL,
   PRIMARY KEY (`idDocument`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -195,7 +197,7 @@ CREATE TABLE `Offre_de_stage` (
   PRIMARY KEY (`idOffre`),
   KEY `idEntreprise` (`idEntreprise`),
   CONSTRAINT `Offre_de_stage_ibfk_1` FOREIGN KEY (`idEntreprise`) REFERENCES `Entreprise` (`idEntreprise`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -204,6 +206,7 @@ CREATE TABLE `Offre_de_stage` (
 
 LOCK TABLES `Offre_de_stage` WRITE;
 /*!40000 ALTER TABLE `Offre_de_stage` DISABLE KEYS */;
+INSERT INTO `Offre_de_stage` VALUES (7,'2026-03-21','offre de stage ing1 devweb','Bac+2','16:03:00','2026-03-28',5);
 /*!40000 ALTER TABLE `Offre_de_stage` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -553,4 +556,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2026-03-21 18:23:13
+-- Dump completed on 2026-03-22 17:24:28
