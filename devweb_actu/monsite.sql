@@ -192,13 +192,13 @@ CREATE TABLE `Offre_de_stage` (
   `dateDepot` date DEFAULT NULL,
   `description` varchar(255) DEFAULT NULL,
   `niveau` varchar(50) DEFAULT NULL,
-  `duree` int DEFAULT NULL,
+  `duree` time DEFAULT NULL,
   `debutStage` date DEFAULT NULL,
   `idEntreprise` int NOT NULL,
   PRIMARY KEY (`idOffre`),
   KEY `idEntreprise` (`idEntreprise`),
   CONSTRAINT `Offre_de_stage_ibfk_1` FOREIGN KEY (`idEntreprise`) REFERENCES `Entreprise` (`idEntreprise`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -207,7 +207,7 @@ CREATE TABLE `Offre_de_stage` (
 
 LOCK TABLES `Offre_de_stage` WRITE;
 /*!40000 ALTER TABLE `Offre_de_stage` DISABLE KEYS */;
-INSERT INTO `Offre_de_stage` VALUES (7,'2026-03-21','offre de stage ing1 devweb','Bac+2','16:03:00','2026-03-28',5),(8,'2026-03-22','stage ing2','Bac+3','04:00:00','2026-03-20',5);
+INSERT INTO `Offre_de_stage` VALUES (7,'2026-03-21','offre de stage ing1 devweb','Bac+2','16:03:00','2026-03-28',5),(8,'2026-03-22','stage ing2','Bac+3','04:00:00','2026-03-20',5),(9,'2026-03-23','stage ing 3','Bac+5',NULL,'2026-03-18',5),(10,'2026-03-23','a','Bac+4','00:00:02','2026-03-13',5),(11,'2026-03-23','aa','Bac+3','00:00:03','2026-04-01',5);
 /*!40000 ALTER TABLE `Offre_de_stage` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -558,4 +558,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2026-03-23 14:56:58
+-- Dump completed on 2026-03-23 16:15:42
