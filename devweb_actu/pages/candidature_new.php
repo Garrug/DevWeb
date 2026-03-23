@@ -422,8 +422,7 @@ $page_title = 'Postuler — ' . ($offre ? htmlspecialchars($offre['entreprise_no
 
                         <!-- Zone drag & drop -->
                         <div id="dropZone"
-                             style="border:2px dashed #E4E4E7;border-radius:14px;padding:40px 24px;text-align:center;transition:all 0.2s;cursor:pointer;position:relative;"
-                             onclick="document.getElementById('cv').click()">
+                             style="border:2px dashed #E4E4E7;border-radius:14px;padding:40px 24px;text-align:center;transition:all 0.2s;cursor:pointer;position:relative;">
 
                             <div id="dropDefault">
                                 <div style="width:52px;height:52px;background:#EEF2FF;border-radius:14px;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;" aria-hidden="true">
