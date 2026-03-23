@@ -69,7 +69,7 @@ $messages = [
     'modifie'  => ['type' => 'success', 'text' => 'Offre modifiée avec succès.'],
     'empty'    => ['type' => 'error',   'text' => 'La description et la date de début sont obligatoires.'],
     'date'     => ['type' => 'error',   'text' => 'Format de date invalide.'],
-    'duree'    => ['type' => 'error',   'text' => 'Format de durée invalide (ex : 4:00 pour 4h).'],
+    'duree'    => ['type' => 'error',   'text' => 'La durée doit être un nombre entier de mois (ex : 3, 6, 12).'],
     'niveau'   => ['type' => 'error',   'text' => 'Niveau sélectionné invalide.'],
     'forbidden'=> ['type' => 'error',   'text' => 'Action non autorisée sur cette offre.'],
     'server'   => ['type' => 'error',   'text' => 'Erreur serveur. Veuillez réessayer.'],
@@ -204,12 +204,12 @@ $niveau_default = ['bg' => '#F4F4F5', 'color' => '#71717A', 'border' => '#E4E4E7
 
                         <div>
                             <label for="duree" style="display:block;font-size:11px;font-weight:700;color:#A1A1AA;letter-spacing:0.06em;margin-bottom:6px;">
-                                DURÉE <span style="font-weight:400;color:#A1A1AA;">(en mois)</span>
+                                DURÉE <span style="font-weight:400;color:#A1A1AA;">(en mois, ex&nbsp;: 6)</span>
                             </label>
-                            <input type="text" id="duree" name="duree"
-                                   value="<?= $edit_offre ? htmlspecialchars($edit_offre['duree'] ?? '') : '' ?>"
-                                   placeholder="2 mois"
-                                   class="input-field">
+                            <input type="number" id="duree" name="duree" min="1" max="24"
+                                placeholder="ex : 6"
+                                value="<?= $edit_offre ? (int)($edit_offre['duree'] ?? '') : '' ?>"
+                                class="input-field">
                         </div>
 
                         <div>

@@ -39,12 +39,12 @@ function valider_champs(string $description, string $debut_stage, string $duree,
     $date_obj = DateTime::createFromFormat('Y-m-d', $debut_stage);
     if (!$date_obj || $date_obj->format('Y-m-d') !== $debut_stage) return 'date';
 
-    if ($duree !== '' && !preg_match('/^\d{1,3}:\d{2}(:\d{2})?$/', $duree)) return 'duree';
+    if ($duree !== '' && (!ctype_digit($duree) || (int)$duree <= 0)) return 'duree';
 
     $niveaux_ok = ['', 'Bac+2', 'Bac+3', 'Bac+4', 'Bac+5'];
     if (!in_array($niveau, $niveaux_ok, true)) return 'niveau';
 
-    return null; // OK
+    return null;
 }
 
 // ── Vérification propriété ────────────────────────────────────────────────
@@ -76,7 +76,7 @@ if ($action === 'ajouter') {
         $stmt->execute([
             ':description'  => $description,
             ':niveau'       => $niveau       ?: null,
-            ':duree'        => $duree        ?: null,
+            ':duree'        => $duree !== '' ? (int)$duree : null,
             ':debutStage'   => $debut_stage,
             ':idEntreprise' => $id_entreprise,
         ]);
@@ -144,7 +144,7 @@ if ($action === 'modifier') {
         $stmt->execute([
             ':description'  => $description,
             ':niveau'       => $niveau       ?: null,
-            ':duree'        => $duree        ?: null,
+            ':duree'        => $duree !== '' ? (int)$duree : null,
             ':debutStage'   => $debut_stage,
             ':idOffre'      => $id_offre,
             ':idEntreprise' => $id_entreprise,
