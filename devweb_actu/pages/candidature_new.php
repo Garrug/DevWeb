@@ -400,17 +400,6 @@ $page_title = 'Postuler — ' . ($offre ? htmlspecialchars($offre['entreprise_no
                                   class="input-field"
                                   style="resize:vertical;min-height:220px;line-height:1.7;"></textarea>
 
-                        <!-- Barre qualité -->
-                        <div style="margin-top:10px;">
-                            <div style="display:flex;justify-content:space-between;margin-bottom:4px;">
-                                <span style="font-size:11px;color:#A1A1AA;">Qualité estimée</span>
-                                <span id="qualityLabel" style="font-size:11px;color:#A1A1AA;">—</span>
-                            </div>
-                            <div style="height:4px;background:#F4F4F5;border-radius:99px;overflow:hidden;">
-                                <div id="qualityBar" style="height:100%;width:0%;border-radius:99px;transition:width 0.3s,background 0.3s;"></div>
-                            </div>
-                        </div>
-
                         <div style="margin-top:20px;display:flex;justify-content:flex-end;">
                             <button type="button" id="btnStep2" class="btn-primary" style="padding:10px 22px;">
                                 Suivant — Joindre un CV
