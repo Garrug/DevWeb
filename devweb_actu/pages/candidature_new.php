@@ -283,7 +283,7 @@ $page_title = 'Postuler — ' . ($offre ? htmlspecialchars($offre['entreprise_no
                             <?php if ($offre['duree']): ?>
                             <span style="font-size:12px;color:#A1A1AA;">⏱ <?= htmlspecialchars($offre['duree']) ?></span>
                             <?php endif; ?>
-                            <span style="font-size:12px;color:#A1A1AA;">📅 Début : <?= $date_debut ?></span>
+                            <span style="font-size:12px;color:#A1A1AA;">Début : <?= $date_debut ?></span>
                         </div>
                     </div>
                     <?php if ($offre['niveau']): ?>

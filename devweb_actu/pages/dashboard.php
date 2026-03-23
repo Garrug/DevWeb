@@ -312,7 +312,7 @@ $niveau_styles = [
         <header class="topbar" style="padding:0 28px;height:60px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:10;">
             <div>
                 <h1 style="font-family:'Syne',sans-serif;font-size:16px;font-weight:700;color:#18181B;margin:0;">Tableau de bord</h1>
-                <p style="font-size:12px;color:#A1A1AA;margin:0;">Bienvenue, <?= htmlspecialchars($user) ?> 👋</p>
+                <p style="font-size:12px;color:#A1A1AA;margin:0;">Bienvenue, <?= htmlspecialchars($user) ?></p>
             </div>
             <div style="display:flex;align-items:center;gap:10px;">
                 <span class="role-badge"><?= htmlspecialchars($role_label) ?></span>
