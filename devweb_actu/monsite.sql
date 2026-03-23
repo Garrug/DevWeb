@@ -80,7 +80,7 @@ CREATE TABLE `Document` (
   `cv_filename` varchar(255) DEFAULT NULL,
   `dateDepot` date DEFAULT NULL,
   PRIMARY KEY (`idDocument`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -89,6 +89,7 @@ CREATE TABLE `Document` (
 
 LOCK TABLES `Document` WRITE;
 /*!40000 ALTER TABLE `Document` DISABLE KEYS */;
+INSERT INTO `Document` VALUES (1,'TP_SE_Memoire.pdf','Salut, salut, choisis moi stp','cv_5_7_1774196994.pdf','2026-03-22'),(2,'TP_SE_Memoire.pdf','yoyoyo, moi ?','cv_5_8_1774199672.pdf','2026-03-22');
 /*!40000 ALTER TABLE `Document` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -197,7 +198,7 @@ CREATE TABLE `Offre_de_stage` (
   PRIMARY KEY (`idOffre`),
   KEY `idEntreprise` (`idEntreprise`),
   CONSTRAINT `Offre_de_stage_ibfk_1` FOREIGN KEY (`idEntreprise`) REFERENCES `Entreprise` (`idEntreprise`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -206,7 +207,7 @@ CREATE TABLE `Offre_de_stage` (
 
 LOCK TABLES `Offre_de_stage` WRITE;
 /*!40000 ALTER TABLE `Offre_de_stage` DISABLE KEYS */;
-INSERT INTO `Offre_de_stage` VALUES (7,'2026-03-21','offre de stage ing1 devweb','Bac+2','16:03:00','2026-03-28',5);
+INSERT INTO `Offre_de_stage` VALUES (7,'2026-03-21','offre de stage ing1 devweb','Bac+2','16:03:00','2026-03-28',5),(8,'2026-03-22','stage ing2','Bac+3','04:00:00','2026-03-20',5);
 /*!40000 ALTER TABLE `Offre_de_stage` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -353,6 +354,7 @@ CREATE TABLE `candidater` (
 
 LOCK TABLES `candidater` WRITE;
 /*!40000 ALTER TABLE `candidater` DISABLE KEYS */;
+INSERT INTO `candidater` VALUES (1,7,5,'Accepté','Accepté'),(2,8,5,'En attente','Accepté');
 /*!40000 ALTER TABLE `candidater` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -556,4 +558,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2026-03-22 17:24:28
+-- Dump completed on 2026-03-23 14:56:58
