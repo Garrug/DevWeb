@@ -192,7 +192,7 @@ CREATE TABLE `Offre_de_stage` (
   `dateDepot` date DEFAULT NULL,
   `description` varchar(255) DEFAULT NULL,
   `niveau` varchar(50) DEFAULT NULL,
-  `duree` time DEFAULT NULL,
+  `duree` int DEFAULT NULL,
   `debutStage` date DEFAULT NULL,
   `idEntreprise` int NOT NULL,
   PRIMARY KEY (`idOffre`),

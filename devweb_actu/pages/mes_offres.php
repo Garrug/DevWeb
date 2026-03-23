@@ -204,11 +204,11 @@ $niveau_default = ['bg' => '#F4F4F5', 'color' => '#71717A', 'border' => '#E4E4E7
 
                         <div>
                             <label for="duree" style="display:block;font-size:11px;font-weight:700;color:#A1A1AA;letter-spacing:0.06em;margin-bottom:6px;">
-                                DURÉE <span style="font-weight:400;color:#A1A1AA;">(ex&nbsp;: 4:00 pour 4h)</span>
+                                DURÉE <span style="font-weight:400;color:#A1A1AA;">(en mois)</span>
                             </label>
                             <input type="text" id="duree" name="duree"
                                    value="<?= $edit_offre ? htmlspecialchars($edit_offre['duree'] ?? '') : '' ?>"
-                                   placeholder="4:00"
+                                   placeholder="2 mois"
                                    class="input-field">
                         </div>
 
