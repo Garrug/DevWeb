@@ -36,7 +36,7 @@ $old = array_map('htmlspecialchars', array_merge([
 
 $show_success = !$error_text && isset($_GET['success']);
 
-$roles        = ['Etudiant', 'Jury', 'Tuteur', 'Entreprise', 'Administrateur'];
+$roles        = ['Etudiant'];
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -91,15 +91,7 @@ $roles        = ['Etudiant', 'Jury', 'Tuteur', 'Entreprise', 'Administrateur'];
 
             <!-- Rôle -->
             <div>
-                <label for="role" style="display:block;font-size:11px;font-weight:700;color:#71717A;letter-spacing:0.06em;margin-bottom:6px;">
-                    RÔLE <span style="color:#EF4444;">*</span>
-                </label>
-                <select id="role" name="role" required class="sf-input" style="cursor:pointer;">
-                    <option value="" disabled <?= $old['role'] === '' ? 'selected' : '' ?> style="background:#1A1A2E;">Sélectionner un rôle</option>
-                    <?php foreach ($roles as $r): ?>
-                    <option value="<?= $r ?>" <?= $old['role'] === $r ? 'selected' : '' ?> style="background:#1A1A2E;"><?= $r ?></option>
-                    <?php endforeach; ?>
-                </select>
+                <input type="hidden" id="role" name="role" value="Etudiant">
             </div>
 
             <!-- Nom -->
